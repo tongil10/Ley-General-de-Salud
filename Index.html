@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ley General de Salud — Guía de Estudio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+  :root {
+    --bg: #f5f4f0; --surface: #ffffff; --surface2: #f0eeea; --border: #e2dfd8;
+    --text: #1a1917; --text2: #6b6860; --text3: #9b9890;
+    --blue: #1d5fa8; --blue-light: #e8f0fa;
+    --green: #1a6b3c; --green-light: #e6f4ec;
+    --amber: #8a5a00; --amber-light: #fdf3dc;
+    --red: #a02020; --red-light: #fceaea;
+    --radius: 10px; --radius-lg: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6; min-height: 100vh; }
+  header { background: var(--text); color: #fff; padding: 1.5rem 2rem; position: sticky; top: 0; z-index: 100; }
+  header h1 { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 2px; }
+  header p { font-size: 11px; opacity: 0.45; font-family: 'DM Mono', monospace; }
+  .tabs-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 1.25rem; display: flex; gap: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tabs-bar::-webkit-scrollbar { display: none; }
+  .tab { padding: 0.8rem 1.1rem; font-size: 12.5px; font-weight: 500; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all .2s; background: none; border-top: none; border-left: none; border-right: none; font-family: 'DM Sans', sans-serif; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--text); border-bottom-color: var(--text); }
+  main { max-width: 900px; margin: 0 auto; padding: 1.5rem; }
+  .section { display: none; }
+  .section.visible { display: block; }
+  .section-label { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text3); margin-bottom: 1rem; font-family: 'DM Mono', monospace; }
+  .subsection-label { font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text3); margin: 1.25rem 0 0.75rem; font-family: 'DM Mono', monospace; border-top: 1px solid var(--border); padding-top: 1rem; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-bottom: 10px; }
+  .card-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 5px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .card-sub { font-size: 11px; color: var(--text3); margin-bottom: 10px; font-family: 'DM Mono', monospace; }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+  .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; }
+  .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; font-family: 'DM Mono', monospace; }
+  .b-blue { background: var(--blue-light); color: var(--blue); }
+  .b-green { background: var(--green-light); color: var(--green); }
+  .b-amber { background: var(--amber-light); color: var(--amber); }
+  .b-red { background: var(--red-light); color: var(--red); }
+  .row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 7px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 7px; }
+  .d-blue { background: var(--blue); } .d-green { background: var(--green); }
+  .d-amber { background: var(--amber); } .d-red { background: var(--red); } .d-gray { background: var(--text3); }
+  .item-text { font-size: 13px; color: var(--text2); line-height: 1.5; }
+  .item-text b { font-weight: 600; color: var(--text); }
+  .num { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; flex-shrink: 0; margin-top: 1px; font-family: 'DM Mono', monospace; }
+  .n-blue { background: var(--blue-light); color: var(--blue); }
+  .n-green { background: var(--green-light); color: var(--green); }
+  .n-amber { background: var(--amber-light); color: var(--amber); }
+  .n-red { background: var(--red-light); color: var(--red); }
+  .n-gray { background: var(--surface2); color: var(--text2); }
+  .card-blue { border-left: 3px solid var(--blue); background: var(--blue-light); }
+  .card-green { border-left: 3px solid var(--green); background: var(--green-light); }
+  .card-amber { border-left: 3px solid var(--amber); background: var(--amber-light); }
+  .card-red { border-left: 3px solid var(--red); background: var(--red-light); }
+  .tile { background: var(--surface2); border-radius: var(--radius); padding: 11px 13px; }
+  .tile-num { font-size: 10px; font-weight: 600; color: var(--text3); font-family: 'DM Mono', monospace; margin-bottom: 3px; }
+  .tile-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .tile-desc { font-size: 12px; color: var(--text2); line-height: 1.4; }
+  .tile-ex { font-size: 11px; color: var(--text3); margin-top: 3px; font-style: italic; }
+  .auth-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 11px; flex: 1; min-width: 120px; }
+  /* Flash */
+  #fc-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; min-height: 180px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; cursor: pointer; margin-bottom: 12px; transition: transform .1s; user-select: none; }
+  #fc-wrap:active { transform: scale(0.99); }
+  #fc-hint { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text3); font-family: 'DM Mono', monospace; margin-bottom: 12px; }
+  #fc-q { font-size: 15px; font-weight: 500; color: var(--text); line-height: 1.5; max-width: 600px; }
+  #fc-a { font-size: 13px; color: var(--text2); margin-top: 14px; line-height: 1.7; white-space: pre-line; max-width: 600px; display: none; padding: 12px 16px; background: var(--surface2); border-radius: 8px; text-align: left; }
+  #fc-nav { display: flex; gap: 8px; align-items: center; }
+  .fc-btn { flex: 1; padding: 9px; border-radius: 8px; border: 1px solid var(--border); background: transparent; cursor: pointer; font-size: 13px; font-family: 'DM Sans', sans-serif; color: var(--text2); transition: all .15s; }
+  .fc-btn:hover { background: var(--surface2); color: var(--text); }
+  #fc-count { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text3); min-width: 55px; text-align: center; }
+  .fc-progress { height: 3px; background: var(--border); border-radius: 2px; margin-bottom: 12px; overflow: hidden; }
+  .fc-bar { height: 100%; background: var(--text); border-radius: 2px; transition: width .3s ease; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Ley General de Salud — Guía de Estudio</h1>
+  <p>Títulos I, II y III · Atención Médica · Dispositivos Médicos</p>
+</header>
+
+<div class="tabs-bar">
+  <button class="tab active" onclick="show('t1',this)">Título I</button>
+  <button class="tab" onclick="show('t2',this)">Título II — SNS</button>
+  <button class="tab" onclick="show('t3',this)">Título III — Servicios</button>
+  <button class="tab" onclick="show('at',this)">Atención Médica</button>
+  <button class="tab" onclick="show('disp',this)">⚕ Dispositivos</button>
+  <button class="tab" onclick="show('reg',this)">Reglas</button>
+  <button class="tab" onclick="show('flash',this)">⚡ Flash Cards</button>
+</div>
+
+<main>
+
+<!-- ===== TÍTULO I ===== -->
+<div id="t1" class="section visible">
+  <div class="section-label">Título Primero · Disposiciones Generales</div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Art. 1° — Marco Legal</div>
+      <div class="card-sub">¿Qué regula?</div>
+      <div class="row"><div class="dot d-blue"></div><div class="item-text">Reglamenta el <b>Art. 4° Constitucional</b> (Derecho a la Salud)</div></div>
+      <div class="row"><div class="dot d-blue"></div><div class="item-text"><b>Concurrencia</b> entre Federación y Estados</div></div>
+      <div class="row"><div class="dot d-blue"></div><div class="item-text">Aplicación en <b>toda la República</b></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Art. 1° Bis — Definición de Salud</div>
+      <div class="card-sub">¿Qué es?</div>
+      <div class="row"><div class="dot d-red"></div><div class="item-text"><b>No es solo:</b> ausencia de enfermedad</div></div>
+      <div class="row"><div class="dot d-green"></div><div class="item-text"><b>Es:</b> estado de completo bienestar <b>físico, mental y social</b></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Art. 2° — Finalidades del Derecho a la Salud <span class="badge b-blue">8 fracciones</span></div>
+    <div class="card-sub">¿Para qué sirve la Ley?</div>
+    <div class="grid2">
+      <div>
+        <div class="row"><div class="num n-blue">I</div><div class="item-text"><b>Bienestar</b> — físico y mental para el ejercicio de capacidades</div></div>
+        <div class="row"><div class="num n-blue">II</div><div class="item-text"><b>Vida</b> — prolongación y mejora de calidad</div></div>
+        <div class="row"><div class="num n-blue">III</div><div class="item-text"><b>Valores</b> — creación y conservación de la salud</div></div>
+        <div class="row"><div class="num n-blue">IV</div><div class="item-text"><b>Actitudes</b> — solidarias y responsables</div></div>
+      </div>
+      <div>
+        <div class="row"><div class="num n-green">V</div><div class="item-text"><b>Servicios</b> — satisfacción eficaz (gratuidad sin seguridad social)</div></div>
+        <div class="row"><div class="num n-green">VI</div><div class="item-text"><b>Conocimiento</b> — para aprovechar servicios</div></div>
+        <div class="row"><div class="num n-green">VII</div><div class="item-text"><b>Investigación</b> — ciencia y tecnología</div></div>
+        <div class="row"><div class="num n-green">VIII</div><div class="item-text"><b>Prevención</b> — promoción y prevención de enfermedades</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Art. 3° — Materias de Salubridad General <span class="badge b-amber">¿Qué vigila la Ley?</span></div>
+    <div class="card-sub">Temas clave por área</div>
+    <div class="grid2">
+      <div>
+        <div class="row"><div class="dot d-blue"></div><div class="item-text"><b>Organizacional:</b> establecimientos y atención médica</div></div>
+        <div class="row"><div class="dot d-blue"></div><div class="item-text"><b>Gratuidad (II Bis):</b> medicamentos e insumos sin SS</div></div>
+        <div class="row"><div class="dot d-blue"></div><div class="item-text"><b>Poblaciones:</b> materno-infantil, visual, auditiva, bucodental</div></div>
+        <div class="row"><div class="dot d-blue"></div><div class="item-text"><b>Salud:</b> planificación familiar, salud mental</div></div>
+        <div class="row"><div class="dot d-blue"></div><div class="item-text"><b>RRHH:</b> ejercicio profesional y formación</div></div>
+      </div>
+      <div>
+        <div class="row"><div class="dot d-amber"></div><div class="item-text"><b>Ciencia:</b> investigación en humanos, Genoma Humano</div></div>
+        <div class="row"><div class="dot d-amber"></div><div class="item-text"><b>Nutrición/Tabaco:</b> sobrepeso, obesidad, tabaquismo</div></div>
+        <div class="row"><div class="dot d-amber"></div><div class="item-text"><b>Entorno:</b> ambiente, salud ocupacional, saneamiento</div></div>
+        <div class="row"><div class="dot d-amber"></div><div class="item-text"><b>Enfermedades:</b> transmisibles (VIH), no transmisibles, cáncer</div></div>
+        <div class="row"><div class="dot d-red"></div><div class="item-text"><b>⚕ Biomédica (XXIII):</b> equipos, prótesis, órtesis, insumos quirúrgicos</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-blue">
+    <div class="card-title">Art. 4° — Las 4 Autoridades Sanitarias <span class="badge b-blue">Clave de examen</span></div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
+      <div class="auth-box"><div class="num n-blue" style="margin-bottom:6px">1</div><div class="item-text"><b>Presidente</b> de la República</div></div>
+      <div class="auth-box"><div class="num n-green" style="margin-bottom:6px">2</div><div class="item-text"><b>Consejo de Salubridad</b> General (CSG)</div></div>
+      <div class="auth-box"><div class="num n-amber" style="margin-bottom:6px">3</div><div class="item-text"><b>Secretaría</b> de Salud</div></div>
+      <div class="auth-box"><div class="num n-gray" style="margin-bottom:6px">4</div><div class="item-text"><b>Gobiernos</b> de Entidades Federativas</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TÍTULO II ===== -->
+<div id="t2" class="section">
+  <div class="section-label">Título Segundo · Sistema Nacional de Salud (SNS)</div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Art. 5° — ¿Quiénes forman el SNS?</div>
+      <div class="row"><div class="dot d-blue"></div><div class="item-text">Dependencias <b>federales y locales</b></div></div>
+      <div class="row"><div class="dot d-blue"></div><div class="item-text">Personas físicas/morales del sector <b>social y privado</b></div></div>
+      <div class="row"><div class="dot d-blue"></div><div class="item-text"><b>Mecanismos de coordinación</b></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Art. 7° — Secretaría como "Cerebro"</div>
+      <div class="row"><div class="dot d-green"></div><div class="item-text"><b>Coordina</b> el SNS y establece la Política Nacional</div></div>
+      <div class="row"><div class="dot d-green"></div><div class="item-text"><b>IMSS-BIENESTAR:</b> gratuidad y compra consolidada</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Art. 6° — Los 12 Objetivos del SNS <span class="badge b-red">Claves para el examen</span></div>
+    <div class="card-sub">Fracciones más preguntadas</div>
+    <div class="grid2">
+      <div>
+        <div class="row"><div class="num n-blue">I</div><div class="item-text">Servicios de <b>calidad</b> (atención integrada preventiva)</div></div>
+        <div class="row"><div class="num n-blue">III</div><div class="item-text"><b>Asistencia Social:</b> menores, ancianos, discapacidad</div></div>
+        <div class="row"><div class="num n-amber">VI/VIBis</div><div class="item-text">Recursos y <b>Medicina Tradicional Indígena</b></div></div>
+      </div>
+      <div>
+        <div class="row"><div class="num n-green">VIII</div><div class="item-text"><b>Fomento Sanitario:</b> productos no nocivos</div></div>
+        <div class="row"><div class="num n-green">IX</div><div class="item-text"><b>TICs:</b> informática para cobertura y calidad</div></div>
+        <div class="row"><div class="num n-green">XI</div><div class="item-text"><b>Nutrición:</b> desnutrición, sobrepeso, obesidad</div></div>
+        <div class="row"><div class="num n-red">XII</div><div class="item-text"><b>Violencia Escolar:</b> bullying (víctimas y victimarios)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Art. 8° y 9° — Colaboración</div>
+      <div class="row"><div class="dot d-amber"></div><div class="item-text"><b>Art. 8°:</b> Subrogación de servicios (contratar a otros)</div></div>
+      <div class="row"><div class="dot d-amber"></div><div class="item-text"><b>Art. 9°:</b> Estados crean sus propios Sistemas Estatales</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Art. 15 y 16 — Consejo de Salubridad General</div>
+      <div class="row"><div class="dot d-blue"></div><div class="item-text">Dependencia <b>directa del Presidente</b></div></div>
+      <div class="row"><div class="dot d-blue"></div><div class="item-text">Integrantes: Sec. Salud, Secretario CSG, Academia Nac. Medicina, Academia Mex. Cirugía</div></div>
+      <div class="row"><div class="dot d-gray"></div><div class="item-text">Cargos a <b>título honorífico</b></div></div>
+    </div>
+  </div>
+
+  <div class="card card-blue">
+    <div class="card-title">Art. 17 — Facultades del CSG <span class="badge b-blue">⚕ Clave Biomédica</span></div>
+    <div class="row"><div class="num n-blue">I</div><div class="item-text"><b>Adicciones y ambiente:</b> medidas contra alcoholismo, sustancias tóxicas, contaminación</div></div>
+    <div class="row"><div class="num n-green">II</div><div class="item-text"><b>Listas y control:</b> enfermedades prioritarias, sindemias, <b>radiaciones ionizantes</b>, eficacia terapéutica de insumos</div></div>
+  </div>
+</div>
+
+<!-- ===== TÍTULO III ===== -->
+<div id="t3" class="section">
+  <div class="section-label">Título Tercero · Prestación de los Servicios de Salud</div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Art. 23 — Definición de Servicios de Salud</div>
+      <div class="card-sub">¿Qué son?</div>
+      <div class="row"><div class="dot d-blue"></div><div class="item-text">Acciones para el <b>individuo y la sociedad</b></div></div>
+      <div class="row"><div class="dot d-blue"></div><div class="item-text">Objetivo: <b>proteger, promover y restaurar</b> la salud de la persona y colectividad</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Art. 24 — Los 3 Tipos de Servicios</div>
+      <div class="card-sub">Clasificación general</div>
+      <div class="row"><div class="num n-blue">I</div><div class="item-text"><b>Atención Médica:</b> curar y rehabilitar</div></div>
+      <div class="row"><div class="num n-green">II</div><div class="item-text"><b>Salud Pública:</b> vacunas y campañas para toda la población</div></div>
+      <div class="row"><div class="num n-amber">III</div><div class="item-text"><b>Asistencia Social:</b> apoyo a grupos vulnerables</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Art. 25 — El Compromiso del Estado</div>
+    <div class="row"><div class="dot d-green"></div><div class="item-text">Garantiza extensión <b>progresiva, cuantitativa y cualitativa</b> de los servicios</div></div>
+    <div class="row"><div class="dot d-green"></div><div class="item-text">Prioridad: <b>personas sin seguridad social</b> (atención integral)</div></div>
+  </div>
+
+  <div class="card card-blue">
+    <div class="card-title">Art. 27 — Los 11 Servicios Básicos de Salud <span class="badge b-red">Lo más preguntado en examen</span></div>
+    <div class="grid2" style="margin-top:10px">
+      <div>
+        <div class="row"><div class="num n-blue">I</div><div class="item-text"><b>Saneamiento:</b> educación, higiene y mejoramiento del ambiente</div></div>
+        <div class="row"><div class="num n-blue">II</div><div class="item-text"><b>Control de enfermedades:</b> transmisibles, no transmisibles, sindemias y accidentes</div></div>
+        <div class="row"><div class="num n-blue">III</div><div class="item-text"><b>Atención médica integral:</b> preventiva, curativa, paliativa, rehabilitación y urgencias <span class="badge b-green" style="font-size:9px">preferente en 1 consulta</span></div></div>
+        <div class="row"><div class="num n-blue">IV</div><div class="item-text"><b>Materno-infantil:</b> atención a mamá e hijo</div></div>
+        <div class="row"><div class="num n-blue">V</div><div class="item-text"><b>Salud sexual</b> y reproductiva</div></div>
+        <div class="row"><div class="num n-blue">VI</div><div class="item-text"><b>Salud mental:</b> prevención y atención</div></div>
+      </div>
+      <div>
+        <div class="row"><div class="num n-amber">VII</div><div class="item-text"><b>Bucodental:</b> prevención y control dental</div></div>
+        <div class="row"><div class="num n-amber">VIII</div><div class="item-text"><b>Insumos:</b> disponibilidad de medicamentos y dispositivos médicos</div></div>
+        <div class="row"><div class="num n-amber">IX</div><div class="item-text"><b>Estilos de vida:</b> promoción de hábitos saludables</div></div>
+        <div class="row"><div class="num n-amber">X</div><div class="item-text"><b>Vulnerables e indígenas:</b> asistencia social especial</div></div>
+        <div class="row"><div class="num n-red">XI</div><div class="item-text"><b>Geriátrica:</b> atención médica a adultos mayores</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-amber">
+    <div class="card-title">Art. 28 — Compendio Nacional de Insumos <span class="badge b-amber">⚕ Biomédica</span></div>
+    <div class="row"><div class="dot d-amber"></div><div class="item-text">Lo elabora: <b>Consejo de Salubridad General</b></div></div>
+    <div class="row"><div class="dot d-amber"></div><div class="item-text">Requisitos del insumo: <b>Seguridad + Calidad + Eficacia terapéutica</b></div></div>
+    <div class="row"><div class="dot d-amber"></div><div class="item-text">Actualizaciones: para incorporar <b>tecnologías innovadoras</b> y optimizar recursos</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Art. 28 Bis — Los 5 que pueden recetar (con Cédula) <span class="badge b-red">Examen</span></div>
+    <div class="grid4" style="margin-top:10px">
+      <div class="tile"><div class="tile-num">1</div><div class="tile-name">Médicos</div><div class="tile-desc">Alópatas y Homeópatas</div></div>
+      <div class="tile"><div class="tile-num">2</div><div class="tile-name">Cirujanos Dentistas</div></div>
+      <div class="tile"><div class="tile-num">3</div><div class="tile-name">Méd. Veterinarios</div><div class="tile-desc">Solo en su área</div></div>
+      <div class="tile"><div class="tile-num">4</div><div class="tile-name">Lic. Enfermería</div><div class="tile-desc">Lo que la Sec. autorice</div></div>
+      <div class="tile"><div class="tile-num">5</div><div class="tile-name">Pasantes / Enf. Técnicos</div><div class="tile-desc">Bajo especificaciones de la Sec.</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Art. 29, 30 y 31 — Control y Precios</div>
+    <div class="row"><div class="dot d-blue"></div><div class="item-text"><b>Art. 29:</b> Instituciones públicas obtienen medicamentos del Compendio</div></div>
+    <div class="row"><div class="dot d-blue"></div><div class="item-text"><b>Art. 30:</b> Secretaría de Salud vigila establecimientos donde se venden medicinas</div></div>
+    <div class="row"><div class="dot d-amber"></div><div class="item-text"><b>Art. 31 — Precios máximos al público:</b> los fija la Secretaría de Economía</div></div>
+    <div class="row"><div class="dot d-red"></div><div class="item-text"><b>Art. 31 — Sector Público:</b> SHCP interviene solo si el producto es del sector público</div></div>
+  </div>
+</div>
+
+<!-- ===== ATENCIÓN MÉDICA ===== -->
+<div id="at" class="section">
+  <div class="section-label">Art. 32 y 33 · Atención Médica — Las 4 Actividades</div>
+
+  <div class="card">
+    <div class="card-title">Art. 32 — Definición General</div>
+    <div class="row"><div class="dot d-blue"></div><div class="item-text">Proteger, <b>promover</b> y <b>restaurar</b> la salud de la persona y la colectividad</div></div>
+  </div>
+
+  <div class="card card-blue">
+    <div class="card-title">Art. 33 — Los 4 Tipos de Atención Médica <span class="badge b-blue">Memoriza el orden</span></div>
+    <div class="grid4" style="margin-top:12px">
+      <div class="auth-box">
+        <div class="num n-green" style="margin-bottom:6px">I</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px">Preventivas</div>
+        <div class="tile-desc">Promoción general y protección específica</div>
+      </div>
+      <div class="auth-box">
+        <div class="num n-blue" style="margin-bottom:6px">II</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px">Curativas</div>
+        <div class="tile-desc">Diagnóstico temprano y tratamiento oportuno</div>
+      </div>
+      <div class="auth-box">
+        <div class="num n-amber" style="margin-bottom:6px">III</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px">Rehabilitación</div>
+        <div class="tile-desc">Optimizar capacidades en personas con discapacidad</div>
+      </div>
+      <div class="auth-box">
+        <div class="num n-red" style="margin-bottom:6px">IV</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px">Paliativas</div>
+        <div class="tile-desc">Cuidado integral, control del dolor — equipo multidisciplinario</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection-label">Art. 34 al 40 · Clasificación por Prestadores</div>
+
+  <div class="grid4" style="margin-bottom:10px">
+    <div class="tile"><div class="tile-num">TIPO I</div><div class="tile-name">Públicos</div><div class="tile-desc">Población en general</div></div>
+    <div class="tile"><div class="tile-num">TIPO II</div><div class="tile-name">Seguridad Social</div><div class="tile-desc">Derechohabientes (cotizan o cotizaron)</div></div>
+    <div class="tile"><div class="tile-num">TIPO III</div><div class="tile-name">Sociales</div><div class="tile-desc">Grupos y organizaciones para sus miembros <span class="tile-ex">(sindicatos)</span></div></div>
+    <div class="tile"><div class="tile-num">TIPO IV</div><div class="tile-name">Privados</div><div class="tile-desc">Personas físicas o morales bajo convenio</div></div>
+  </div>
+
+  <div class="card card-red">
+    <div class="card-title">Art. 36 — Regla de Dinero <span class="badge b-red">Prohibición importante</span></div>
+    <div class="row"><div class="dot d-green"></div><div class="item-text">Se basan en <b>solidaridad social</b> y condiciones socioeconómicas del usuario</div></div>
+    <div class="row"><div class="dot d-red"></div><div class="item-text"><b>PROHIBIDO</b> cobrar cuotas a personas sin seguridad social</div></div>
+  </div>
+</div>
+
+<!-- ===== DISPOSITIVOS ===== -->
+<div id="disp" class="section">
+  <div class="section-label">Art. 262 · Dispositivos Médicos — Vital para Biomédicos</div>
+
+  <div class="card card-blue" style="margin-bottom:10px">
+    <div class="card-title">⚕ Identifica qué es cada categoría — esto cae en examen</div>
+    <div class="item-text" style="margin-top:4px">Te dan un objeto → debes ubicarlo en la fracción correcta del Art. 262</div>
+  </div>
+
+  <div class="grid3">
+    <div class="tile" style="border:1px solid var(--border)">
+      <div class="tile-num">FRACC. I</div>
+      <div class="tile-name">Equipo Médico</div>
+      <div class="tile-desc">Aparatos, accesorios e instrumental para <b>atención médica o investigación biomédica</b></div>
+    </div>
+    <div class="tile" style="border:1px solid var(--border)">
+      <div class="tile-num">FRACC. II</div>
+      <div class="tile-name">Prótesis / Órtesis</div>
+      <div class="tile-desc"><b>Sustituir o complementar</b> una función, órgano o tejido</div>
+    </div>
+    <div class="tile" style="border:1px solid var(--border)">
+      <div class="tile-num">FRACC. III</div>
+      <div class="tile-name">Agentes de Diagnóstico</div>
+      <div class="tile-desc">Antígenos, anticuerpos, reactivos, <b>medios de contraste</b></div>
+      <div class="tile-ex">Auxiliares de laboratorio</div>
+    </div>
+    <div class="tile" style="border:1px solid var(--border)">
+      <div class="tile-num">FRACC. IV</div>
+      <div class="tile-name">Insumos Odontológicos</div>
+      <div class="tile-desc">Específicos para <b>salud dental</b></div>
+    </div>
+    <div class="tile" style="border:1px solid var(--border)">
+      <div class="tile-num">FRACC. V</div>
+      <div class="tile-name">Mat. Quirúrgico / Curación</div>
+      <div class="tile-desc">Dispositivos para tratar <b>lesiones de piel o cirugías</b></div>
+    </div>
+    <div class="tile" style="border:1px solid var(--border)">
+      <div class="tile-num">FRACC. VI</div>
+      <div class="tile-name">Productos Higiénicos</div>
+      <div class="tile-desc">Se aplican en <b>piel o cavidades</b> con acción farmacológica o preventiva</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:10px">
+    <div class="card-title">Truco para recordar el orden</div>
+    <div class="row"><div class="num n-blue">I</div><div class="item-text"><b>Equipo</b> — lo que usas para atender (aparatos, instrumental)</div></div>
+    <div class="row"><div class="num n-blue">II</div><div class="item-text"><b>Prótesis/Órtesis</b> — lo que reemplaza o apoya al cuerpo</div></div>
+    <div class="row"><div class="num n-blue">III</div><div class="item-text"><b>Diagnóstico</b> — lo que detecta (reactivos, anticuerpos, contraste)</div></div>
+    <div class="row"><div class="num n-blue">IV</div><div class="item-text"><b>Odontológico</b> — lo dental</div></div>
+    <div class="row"><div class="num n-blue">V</div><div class="item-text"><b>Quirúrgico/Curación</b> — lesiones de piel o cirugías</div></div>
+    <div class="row"><div class="num n-blue">VI</div><div class="item-text"><b>Higiénico</b> — se aplica en piel o cavidades</div></div>
+  </div>
+</div>
+
+<!-- ===== REGLAS ===== -->
+<div id="reg" class="section">
+  <div class="section-label">Art. 263 al 464 · Reglas de Manejo y Seguridad</div>
+
+  <div class="card">
+    <div class="card-title">Art. 263 — Etiquetas <span class="badge b-amber">Fracc. I y II</span></div>
+    <div class="row"><div class="dot d-blue"></div><div class="item-text">Equipos médicos y prótesis/órtesis deben tener <b>manual o etiqueta</b> con especificaciones de manejo</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Art. 264 — Radiación</div>
+    <div class="row"><div class="dot d-amber"></div><div class="item-text">Equipos con <b>radiación</b> deben seguir las <b>NOM</b> (Normas Oficiales Mexicanas)</div></div>
+    <div class="row"><div class="dot d-amber"></div><div class="item-text">Aplica desde su uso <b>hasta la eliminación de desechos</b></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Art. 295 — Importación</div>
+    <div class="row"><div class="dot d-green"></div><div class="item-text">Se requiere <b>Autorización Sanitaria de la Secretaría de Salud</b> para importar equipos e insumos</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Art. 310 — Publicidad</div>
+    <div class="grid2" style="margin-top:8px">
+      <div class="tile"><div class="tile-num">TIPO 1</div><div class="tile-name">A profesionales</div><div class="tile-desc">Dirigida a personal de salud</div></div>
+      <div class="tile"><div class="tile-num">TIPO 2</div><div class="tile-name">Al público general</div><div class="tile-desc">Dirigida a la población en general</div></div>
+    </div>
+  </div>
+
+  <div class="card card-red">
+    <div class="card-title">Art. 464 Quáter — Delitos <span class="badge b-red">Importante</span></div>
+    <div class="row"><div class="dot d-red"></div><div class="item-text">Es <b>delito</b> adulterar, falsificar o contaminar <b>dispositivos médicos</b></div></div>
+  </div>
+
+  <div class="card card-blue">
+    <div class="card-title">Art. 77 Bis 35 — IMSS-BIENESTAR <span class="badge b-blue">Fracc. VI</span></div>
+    <div class="row"><div class="dot d-blue"></div><div class="item-text">Planeación estratégica para el uso <b>racional</b> de recursos humanos, <b>equipo médico</b> e infraestructura</div></div>
+  </div>
+</div>
+
+<!-- ===== FLASH CARDS ===== -->
+<div id="flash" class="section">
+  <div class="section-label">Flash Cards — Repaso completo (30 preguntas)</div>
+  <div class="fc-progress"><div class="fc-bar" id="fc-bar" style="width:0%"></div></div>
+  <div id="fc-wrap" onclick="flipCard()">
+    <div id="fc-hint">Toca para ver la respuesta</div>
+    <div id="fc-q"></div>
+    <div id="fc-a"></div>
+  </div>
+  <div id="fc-nav">
+    <button class="fc-btn" onclick="prevCard()">← Anterior</button>
+    <span id="fc-count"></span>
+    <button class="fc-btn" onclick="nextCard()">Siguiente →</button>
+  </div>
+</div>
+
+</main>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.getElementById(id).classList.add('visible');
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+const cards = [
+  { q: "¿Qué artículo constitucional reglamenta la LGS?", a: "Artículo 4° Constitucional — Derecho a la Salud" },
+  { q: "¿Cuál es la definición de Salud según el Art. 1° Bis?", a: "Estado de completo bienestar físico, mental y social — NO solo ausencia de enfermedad" },
+  { q: "¿Cuántas finalidades tiene el Derecho a la Salud? (Art. 2°)", a: "8 fracciones:\nI. Bienestar  II. Vida  III. Valores  IV. Actitudes\nV. Servicios  VI. Conocimiento  VII. Investigación  VIII. Prevención" },
+  { q: "¿Cuáles son las 4 Autoridades Sanitarias? (Art. 4°)", a: "1. Presidente de la República\n2. Consejo de Salubridad General (CSG)\n3. Secretaría de Salud\n4. Gobiernos de las Entidades Federativas" },
+  { q: "¿De quién depende directamente el CSG? (Art. 15)", a: "Del Presidente de la República. Sus cargos son a título honorífico." },
+  { q: "¿Cuáles son los 3 tipos de Servicios de Salud? (Art. 24)", a: "I. Atención Médica (curar/rehabilitar)\nII. Salud Pública (vacunas, campañas)\nIII. Asistencia Social (grupos vulnerables)" },
+  { q: "¿Qué garantiza el Art. 25?", a: "Extensión progresiva, cuantitativa y cualitativa de los servicios.\nPrioridad: personas sin seguridad social." },
+  { q: "¿Cuáles son los 11 Servicios Básicos? (Art. 27)", a: "I. Saneamiento\nII. Control de enfermedades\nIII. Atención integral (1 sola consulta)\nIV. Materno-infantil\nV. Sexual/reproductiva\nVI. Salud mental\nVII. Bucodental\nVIII. Insumos\nIX. Estilos de vida\nX. Vulnerables/indígenas\nXI. Geriátrica" },
+  { q: "¿Característica especial del Servicio Básico III? (Art. 27)", a: "Se realiza preferentemente en UNA sola consulta\n(preventiva + curativa + paliativa + rehabilitación + urgencias)" },
+  { q: "¿Qué organismo elabora el Compendio Nacional de Insumos? (Art. 28)", a: "El Consejo de Salubridad General (CSG)" },
+  { q: "¿Qué 3 requisitos debe probar un insumo para el Compendio?", a: "Seguridad + Calidad + Eficacia terapéutica" },
+  { q: "¿Quiénes pueden recetar? (Art. 28 Bis)", a: "1. Médicos (alópatas/homeópatas)\n2. Cirujanos Dentistas\n3. Méd. Veterinarios (solo su área)\n4. Lic. Enfermería (lo que la Sec. autorice)\n5. Pasantes/Enf. Técnicos (bajo especificaciones)" },
+  { q: "Art. 31 — ¿Quién fija precios máximos al público?", a: "La Secretaría de Economía.\nLa SHCP interviene solo si el producto es del sector público." },
+  { q: "¿Qué fracción del Art. 3° es clave para Biomédica?", a: "Fracción XXIII: Control sanitario de equipos médicos, prótesis, órtesis, insumos quirúrgicos\n(proceso, uso, mantenimiento, importación, exportación, disposición final)" },
+  { q: "¿Qué objetivo del SNS se refiere a bullying? (Art. 6°)", a: "Fracción XII — Programas para víctimas y victimarios de violencia escolar" },
+  { q: "Art. 17 CSG — ¿Qué controla en materia de Biomédica? (Fracc. II)", a: "Listas de enfermedades prioritarias, control de radiaciones ionizantes y eficacia terapéutica de insumos" },
+  { q: "¿Cuáles son los 4 tipos de Atención Médica? (Art. 33)", a: "I. Preventivas (promoción y protección)\nII. Curativas (diagnóstico y tratamiento)\nIII. Rehabilitación (optimizar capacidades)\nIV. Paliativas (control del dolor, equipo multidisciplinario)" },
+  { q: "¿Cuáles son los 4 tipos de prestadores? (Art. 34)", a: "I. Públicos — población en general\nII. Seguridad Social — derechohabientes\nIII. Sociales — grupos/organizaciones (sindicatos)\nIV. Privados — personas físicas o morales por convenio" },
+  { q: "¿Qué prohíbe el Art. 36?", a: "PROHIBIDO cobrar cuotas a personas sin seguridad social.\nLos servicios se basan en solidaridad social." },
+  { q: "¿Qué es un Equipo Médico? (Art. 262, Fracc. I)", a: "Aparatos, accesorios e instrumental usados para atención médica o investigación biomédica." },
+  { q: "¿Qué diferencia a Prótesis de Órtesis? (Art. 262, Fracc. II)", a: "Ambas sustituyen/complementan función, órgano o tejido.\nProótesis = reemplaza. Órtesis = apoya/complementa." },
+  { q: "¿Qué son los Agentes de Diagnóstico? (Art. 262, Fracc. III)", a: "Antígenos, anticuerpos, reactivos y medios de contraste. Auxiliares de laboratorio." },
+  { q: "¿Qué son los Materiales Quirúrgicos/Curación? (Art. 262, Fracc. V)", a: "Dispositivos para tratar lesiones de la piel o utilizados en cirugías." },
+  { q: "¿Qué son los Productos Higiénicos? (Art. 262, Fracc. VI)", a: "Productos que se aplican en piel o cavidades con acción farmacológica o preventiva." },
+  { q: "¿Qué exige el Art. 263 para equipos y prótesis?", a: "Deben incluir manual o etiqueta con especificaciones de manejo." },
+  { q: "¿Qué exige el Art. 264 para equipos con radiación?", a: "Seguir las NOM desde el uso hasta la eliminación final de desechos." },
+  { q: "¿Qué se necesita para importar equipo médico? (Art. 295)", a: "Autorización Sanitaria de la Secretaría de Salud." },
+  { q: "¿Cuántos tipos de publicidad existen para dispositivos? (Art. 310)", a: "Dos tipos:\n1) Dirigida a profesionales de la salud\n2) Dirigida a la población en general" },
+  { q: "¿Qué conductas son delito según el Art. 464 Quáter?", a: "Adulterar, falsificar o contaminar dispositivos médicos." },
+  { q: "¿Qué establece la Fracc. VI del Art. 77 Bis 35 (IMSS-BIENESTAR)?", a: "Planeación estratégica para el uso racional de recursos humanos, equipo médico e infraestructura." },
+];
+
+let cur = 0, shown = false;
+function render() {
+  document.getElementById('fc-q').textContent = cards[cur].q;
+  const a = document.getElementById('fc-a');
+  a.style.display = 'none';
+  a.textContent = cards[cur].a;
+  document.getElementById('fc-hint').textContent = 'Toca para ver la respuesta';
+  document.getElementById('fc-count').textContent = (cur+1) + ' / ' + cards.length;
+  document.getElementById('fc-bar').style.width = ((cur+1)/cards.length*100) + '%';
+  shown = false;
+}
+function flipCard() {
+  const a = document.getElementById('fc-a');
+  shown = !shown;
+  a.style.display = shown ? 'block' : 'none';
+  document.getElementById('fc-hint').textContent = shown ? '✓ Respuesta' : 'Toca para ver la respuesta';
+}
+function nextCard() { cur = (cur+1) % cards.length; render(); }
+function prevCard() { cur = (cur-1+cards.length) % cards.length; render(); }
+render();
+</script>
+</body>
+</html>
